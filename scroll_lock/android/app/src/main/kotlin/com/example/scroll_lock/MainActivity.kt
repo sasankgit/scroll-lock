@@ -20,7 +20,13 @@ class MainActivity : FlutterActivity() {
 
     override fun onResume() {
         super.onResume()
+        ScrollLockAccessibilityService.isMainActivityActive = true
         ScrollLockAccessibilityService.instance?.dismissAllOverlaysForApp()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ScrollLockAccessibilityService.isMainActivityActive = false
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {

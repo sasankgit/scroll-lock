@@ -37,6 +37,9 @@ class ScrollLockAccessibilityService : AccessibilityService() {
         @SuppressLint("StaticFieldLeak")
         var instance: ScrollLockAccessibilityService? = null
 
+        @Volatile
+        var isMainActivityActive: Boolean = false
+
         fun checkDailyReset(context: Context): Boolean {
             val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
@@ -102,8 +105,7 @@ class ScrollLockAccessibilityService : AccessibilityService() {
         info.eventTypes = AccessibilityEvent.TYPE_VIEW_SCROLLED or AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC
         info.notificationTimeout = 50
-        info.flags = AccessibilityServiceInfo.FLAG_DEFAULT or
-                AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
+        info.flags = AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
         serviceInfo = info
 
         checkDailyReset(this)
@@ -150,13 +152,19 @@ class ScrollLockAccessibilityService : AccessibilityService() {
             return
         }
 
-        val activePkg = getActivePackageName()
-
-        // If the active package is ScrollLock itself, immediately dismiss all overlays
-        if (activePkg != null && activePkg.equals(packageName, ignoreCase = true)) {
+        // If MainActivity is genuinely active in the foreground, immediately dismiss all overlays
+        if (isMainActivityActive) {
             isInstagramActive = false
             hideFloatingOverlay()
             hideLockOverlay()
+            return
+        }
+
+        val activePkg = getActivePackageName()
+
+        // If the active package is ScrollLock, it means our lock overlay or floating pill currently has focus
+        // Keep the overlay visible; do not dismiss it!
+        if (activePkg != null && activePkg.equals(packageName, ignoreCase = true)) {
             return
         }
 
@@ -178,7 +186,7 @@ class ScrollLockAccessibilityService : AccessibilityService() {
             if (activePkg != null && isTransientKeyboard(activePkg) && isInstagramActive) {
                 return
             }
-            // In all other cases (e.g. Home screen, GPay, other apps), ensure overlays are strictly removed
+            // In all other cases (e.g. Home screen, banking apps, other apps), ensure overlays are strictly removed
             isInstagramActive = false
             hideFloatingOverlay()
             hideLockOverlay()
@@ -189,13 +197,16 @@ class ScrollLockAccessibilityService : AccessibilityService() {
         if (event == null) return
         val pkgName = event.packageName?.toString() ?: getActivePackageName() ?: return
 
-        // If event is from ScrollLock itself, remove overlays
+        // If event is from ScrollLock itself
         if (pkgName.equals(packageName, ignoreCase = true)) {
-            isInstagramActive = false
-            mainHandler.post {
-                hideFloatingOverlay()
-                hideLockOverlay()
+            if (isMainActivityActive) {
+                isInstagramActive = false
+                mainHandler.post {
+                    hideFloatingOverlay()
+                    hideLockOverlay()
+                }
             }
+            // Event is from our own overlay UI (e.g. user touching lock screen or buttons). Do NOT dismiss!
             return
         }
 
@@ -214,6 +225,10 @@ class ScrollLockAccessibilityService : AccessibilityService() {
             val limit = prefs.getInt(KEY_SCROLL_LIMIT, DEFAULT_LIMIT)
 
             if (count >= limit) {
+                // If lock overlay is already shown, do NOT re-trigger or recreate to prevent blinking
+                if (isLockOverlayVisible) {
+                    return
+                }
                 mainHandler.post {
                     hideFloatingOverlay()
                     showLockOverlay(count, limit)
@@ -249,6 +264,9 @@ class ScrollLockAccessibilityService : AccessibilityService() {
         } else if (!isTransientKeyboard(pkgName)) {
             val currentActive = getActivePackageName()
             if (currentActive == null || !isInstagramPackage(currentActive)) {
+                if (currentActive != null && currentActive.equals(packageName, ignoreCase = true) && !isMainActivityActive) {
+                    return
+                }
                 isInstagramActive = false
                 mainHandler.post {
                     hideFloatingOverlay()
@@ -385,9 +403,14 @@ class ScrollLockAccessibilityService : AccessibilityService() {
         }
     }
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "ClickableViewAccessibility")
     private fun showLockOverlay(count: Int, limit: Int) {
         val wm = windowManager ?: return
+
+        // If already visible, do not re-add or re-render; keep it perfectly still
+        if (isLockOverlayVisible) {
+            return
+        }
 
         if (lockOverlayView == null) {
             val inflater = LayoutInflater.from(this)
@@ -402,17 +425,12 @@ class ScrollLockAccessibilityService : AccessibilityService() {
             ).apply {
                 gravity = Gravity.CENTER
             }
-        }
 
-        lockOverlayView?.let { view ->
-            val tvMessage = view.findViewById<TextView>(R.id.tv_lock_message)
-            val tvStats = view.findViewById<TextView>(R.id.tv_lock_stats)
-
-            tvMessage?.text = "You've reached your daily limit of $limit scrolls on Instagram. Step away and take a mindful break!"
-            tvStats?.text = "Count: $count / $limit scrolls • Resets tomorrow at 12:00 AM"
+            // Consume all touches on the lock overlay so touches never pass through to Instagram underneath
+            lockOverlayView?.setOnTouchListener { _, _ -> true }
 
             // Ensure Exit to Home button works reliably
-            view.findViewById<Button>(R.id.btn_exit_home)?.setOnClickListener {
+            lockOverlayView?.findViewById<Button>(R.id.btn_exit_home)?.setOnClickListener {
                 isInstagramActive = false
                 lockExitCooldownUntil = SystemClock.uptimeMillis() + 2500L
                 hideLockOverlay()
@@ -430,7 +448,7 @@ class ScrollLockAccessibilityService : AccessibilityService() {
             }
 
             // Ensure Adjust Limit in ScrollLock button opens app and dismisses overlay cleanly
-            view.findViewById<Button>(R.id.btn_open_app)?.setOnClickListener {
+            lockOverlayView?.findViewById<Button>(R.id.btn_open_app)?.setOnClickListener {
                 isInstagramActive = false
                 lockExitCooldownUntil = SystemClock.uptimeMillis() + 2500L
                 hideLockOverlay()
@@ -448,13 +466,19 @@ class ScrollLockAccessibilityService : AccessibilityService() {
             }
         }
 
-        if (!isLockOverlayVisible) {
-            try {
-                wm.addView(lockOverlayView, lockParams)
-                isLockOverlayVisible = true
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+        lockOverlayView?.let { view ->
+            val tvMessage = view.findViewById<TextView>(R.id.tv_lock_message)
+            val tvStats = view.findViewById<TextView>(R.id.tv_lock_stats)
+
+            tvMessage?.text = "You've reached your daily limit of $limit scrolls on Instagram. Step away and take a mindful break!"
+            tvStats?.text = "Count: $count / $limit scrolls • Resets tomorrow at 12:00 AM"
+        }
+
+        try {
+            wm.addView(lockOverlayView, lockParams)
+            isLockOverlayVisible = true
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -475,6 +499,12 @@ class ScrollLockAccessibilityService : AccessibilityService() {
             val prefs = getPrefs(this)
             val count = prefs.getInt(KEY_SCROLL_COUNT, 0)
             val limit = prefs.getInt(KEY_SCROLL_LIMIT, DEFAULT_LIMIT)
+
+            if (isMainActivityActive) {
+                hideFloatingOverlay()
+                hideLockOverlay()
+                return@post
+            }
 
             val activePkg = getActivePackageName()
             val isIg = activePkg != null && isInstagramPackage(activePkg)

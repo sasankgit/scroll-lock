@@ -550,14 +550,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             Row(
               children: [
                 SizedBox(
-                  width: 90,
-                  height: 90,
+                  width: 82,
+                  height: 82,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       CircularProgressIndicator(
                         value: progress,
-                        strokeWidth: 9,
+                        strokeWidth: 8,
                         backgroundColor: const Color(0xFF282A3A),
                         valueColor: AlwaysStoppedAnimation<Color>(progressColor),
                       ),
@@ -567,7 +567,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           Text(
                             '$_scrollCount',
                             style: const TextStyle(
-                              fontSize: 22,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -583,7 +583,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ],
                   ),
                 ),
-                const SizedBox(width: 24),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -594,7 +594,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       const SizedBox(height: 8),
                       _buildStatItem(
                         'Daily Reset',
-                        _lastResetDate.isNotEmpty ? 'Date: $_lastResetDate' : 'At midnight',
+                        _lastResetDate.isNotEmpty ? _lastResetDate : 'At midnight',
                       ),
                     ],
                   ),
@@ -626,15 +626,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   Widget _buildStatItem(String label, String value) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           label,
-          style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 13),
+          style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 12.5),
         ),
-        Text(
-          value,
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12.5),
+          ),
         ),
       ],
     );
@@ -772,14 +777,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 Icon(Icons.shield_outlined, color: Color(0xFF60A5FA), size: 22),
                 SizedBox(width: 8),
                 Text(
-                  'Google Pay & Banking Apps',
+                  'Banking & Financial Apps',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
             const SizedBox(height: 10),
             const Text(
-              'UPI and banking apps (such as Google Pay, PhonePe, Paytm) check for active Accessibility Services on sideloaded apps as a fraud-prevention measure.',
+              'Money-related and banking applications check for active Accessibility Services on sideloaded apps as a fraud-prevention measure.',
               style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 13, height: 1.4),
             ),
             const SizedBox(height: 12),
@@ -799,7 +804,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    '• Scoped to Instagram only: ScrollLock is strictly restricted to Instagram packages (com.instagram.android). It can never observe, access, or read payment screens, UPI PINs, or banking details.\n'
+                    '• Scoped to Instagram only: ScrollLock is strictly restricted to Instagram packages (com.instagram.android). It can never observe, access, or read payment screens, PINs, or banking details.\n'
                     '• Overlays removed outside Instagram: Lock and floating overlays are immediately cleared when leaving Instagram, preventing touch obscuring.\n'
                     '• 100% Local: No remote databases or cloud servers.',
                     style: TextStyle(fontSize: 12, color: Color(0xFFCBD5E1), height: 1.4),
@@ -809,13 +814,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
             const SizedBox(height: 12),
             const Text(
-              'If Google Pay restricts payments during testing:',
+              'If money or banking apps restrict payments during testing:',
               style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFFE5E7EB)),
             ),
             const SizedBox(height: 4),
             const Text(
               '1. Tap below to temporarily turn off the Accessibility Service before making a transaction.\n'
-              '2. If Google Pay paused UPI, restart your phone or refresh your UPI PIN inside GPay.\n'
+              '2. If a payment app paused transactions, restart your phone or refresh your security verification inside the banking app.\n'
               '3. In production, Play Store certification (Play Protect) verifies the app signature so sideload warnings do not apply.',
               style: TextStyle(color: Color(0xFF9CA3AF), fontSize: 12, height: 1.4),
             ),
