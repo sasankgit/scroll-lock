@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - ScrollLock</title>
+  <meta name="description" content="Privacy Policy for ScrollLock - Mindful Instagram Screen Time & Scroll Tracker. Learn how your data is handled locally with zero cloud transfers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0c0e14;
+      --card-bg: #141722;
+      --card-border: #232738;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-pink: #e1306c;
+      --accent-purple: #833ab4;
+      --accent-orange: #fd1d1d;
+      --accent-blue: #38bdf8;
+      --accent-green: #10b981;
+      --gradient-brand: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+      --gradient-pink: linear-gradient(135deg, #e1306c 0%, #ff5277 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.65;
+      padding: 32px 16px 80px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 24px 0 12px 0;
+    }
+
+    .logo-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: var(--gradient-brand);
+      box-shadow: 0 12px 28px rgba(225, 48, 108, 0.35);
+      margin-bottom: 20px;
+      font-size: 34px;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: #e2e8f0;
+    }
+
+    .badge.green {
+      background-color: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+
+    .badge.blue {
+      background-color: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: var(--accent-blue);
+    }
+
+    /* Cards */
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: #333a52;
+    }
+
+    .card-highlight {
+      background: linear-gradient(180deg, rgba(225, 48, 108, 0.08) 0%, var(--card-bg) 100%);
+      border-color: rgba(225, 48, 108, 0.3);
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.07);
+      font-size: 16px;
+    }
+
+    p {
+      color: #cbd5e1;
+      margin-bottom: 14px;
+      font-size: 0.975rem;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul {
+      margin: 12px 0 16px 20px;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+    }
+
+    li {
+      margin-bottom: 8px;
+      line-height: 1.55;
+    }
+
+    li strong {
+      color: #ffffff;
+    }
+
+    .callout {
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 18px 0;
+      font-size: 0.93rem;
+    }
+
+    .callout-success {
+      background-color: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid var(--accent-green);
+      color: #d1fae5;
+    }
+
+    .callout-info {
+      background-color: rgba(56, 189, 248, 0.09);
+      border-left: 4px solid var(--accent-blue);
+      color: #e0f2fe;
+    }
+
+    .callout-warning {
+      background-color: rgba(245, 158, 11, 0.09);
+      border-left: 4px solid #f59e0b;
+      color: #fef3c7;
+    }
+
+    .contact-card {
+      background: linear-gradient(135deg, rgba(131, 58, 180, 0.15), rgba(225, 48, 108, 0.15));
+      border: 1px solid rgba(225, 48, 108, 0.35);
+      text-align: center;
+      padding: 36px 24px;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gradient-pink);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 12px 28px;
+      border-radius: 12px;
+      margin-top: 18px;
+      box-shadow: 0 8px 20px rgba(225, 48, 108, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(225, 48, 108, 0.45);
+    }
+
+    a {
+      color: #f472b6;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 48px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 24px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 20px 14px 60px 14px;
+      }
+      h1 {
+        font-size: 1.85rem;
+      }
+      .card {
+        padding: 22px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="logo-container">🔒</div>
+      <h1>ScrollLock Privacy Policy</h1>
+      <p class="subtitle">Mindful Instagram Screen Time & Scroll Tracker</p>
+      <div class="badge-bar">
+        <span class="badge green">✓ Zero Cloud Storage</span>
+        <span class="badge green">✓ 100% Local Device Processing</span>
+        <span class="badge blue">✓ Strict Accessibility Scoping</span>
+        <span class="badge">Effective Date: November 25, 2026</span>
+      </div>
+    </header>
+
+    <!-- Overview Card -->
+    <section class="card card-highlight">
+      <h2><span class="icon">🛡️</span> Introduction & Summary</h2>
+      <p>
+        At <strong>ScrollLock</strong>, we believe that taking control of your screen time should never compromise your digital privacy. This Privacy Policy details our core commitment: <strong>ScrollLock is designed as an offline-first, local-only utility</strong>.
+      </p>
+      <div class="callout callout-success">
+        <strong>Core Privacy Promise:</strong> ScrollLock does not operate any remote database, user account server, or cloud storage. <strong>None of your personal data, scroll history, or activity logs are ever transmitted to or stored on any external server or cloud backend.</strong>
+      </div>
+    </section>
+
+    <!-- Data Storage Card -->
+    <section class="card">
+      <h2><span class="icon">💾</span> Data Collection & Local-Only Storage</h2>
+      <p>
+        All operational data utilized by ScrollLock is saved solely on your physical device using Android's native private storage (<code>SharedPreferences</code>):
+      </p>
+      <ul>
+        <li><strong>Daily Scroll Count:</strong> An integer tally representing the number of scrolls performed in Instagram today.</li>
+        <li><strong>Daily Scroll Limit:</strong> Your chosen limit threshold (e.g. 5, 10, or custom).</li>
+        <li><strong>Last Reset Date:</strong> A local date marker (YYYY-MM-DD) used by the midnight automatic counter reset logic.</li>
+        <li><strong>User Preference Settings:</strong> Toggles such as whether to reset your limit to default daily.</li>
+      </ul>
+      <p>
+        This information stays exclusively within your device's sandbox. It is never uploaded, synced, backed up to third-party clouds, or shared with any entity.
+      </p>
+    </section>
+
+    <!-- Accessibility Service Card -->
+    <section class="card">
+      <h2><span class="icon">♿</span> Android Accessibility Service Disclosure</h2>
+      <p>
+        To provide its core functionality, ScrollLock requires you to explicitly enable its <strong>Accessibility Service</strong> (<code>ScrollLockAccessibilityService</code>). In accordance with Google Play's Developer Program Policies regarding the Accessibility API, we provide the following explicit disclosures:
+      </p>
+      <ul>
+        <li><strong>Purpose of Use:</strong> The Accessibility Service is used solely to detect scroll events (<code>TYPE_VIEW_SCROLLED</code>) within Instagram feeds and monitor window state transitions (<code>TYPE_WINDOW_STATE_CHANGED</code>) to display the floating scroll counter and mindful lock reminder overlay.</li>
+        <li><strong>Strict Scoping to Instagram:</strong> ScrollLock explicitly restricts its accessibility filters in configuration and runtime code to Instagram packages (<code>com.instagram.android</code> and <code>com.instagram.lite</code>). It does not receive events from or monitor any other application on your phone.</li>
+        <li><strong>No Sensitive Data Access:</strong> ScrollLock does <strong>NOT</strong> record, collect, read, or transmit your passwords, text inputs, keystrokes, personal messages, banking or UPI details, contact numbers, or photos.</li>
+        <li><strong>No Audio/Call Interception:</strong> The service does not alter phone settings, record audio, or intercept phone calls.</li>
+        <li><strong>No Screen Recording:</strong> ScrollLock does not take screenshots or capture video recordings of your display.</li>
+      </ul>
+      <div class="callout callout-info">
+        Scroll events detected by the service are immediately incremented into a numeric local counter and discarded from memory. No context of what content was scrolled is ever evaluated or saved.
+      </div>
+    </section>
+
+    <!-- System Alert Window / Overlay Card -->
+    <section class="card">
+      <h2><span class="icon">🪟</span> Display Over Other Apps (Overlay Permission)</h2>
+      <p>
+        ScrollLock requests the <code>SYSTEM_ALERT_WINDOW</code> permission to draw floating UI elements:
+      </p>
+      <ul>
+        <li><strong>Floating Counter Pill:</strong> Displays your live scroll count (e.g., "3 / 5 scrolls") while browsing Instagram feeds so you stay mindfully aware.</li>
+        <li><strong>Full-Screen Lock Overlay:</strong> Displays a break reminder when your chosen daily limit is reached.</li>
+      </ul>
+      <p>
+        <strong>Strict Overlay Lifecycle:</strong> Overlays are rendered strictly when Instagram is active. Whenever you leave Instagram, exit to the Home screen, or open other applications (such as Google Pay, banking apps, or messaging), all overlay views are immediately dismissed from Android's WindowManager.
+      </p>
+    </section>
+
+    <!-- Google AdMob & Third-Party SDKs Card -->
+    <section class="card">
+      <h2><span class="icon">📢</span> Third-Party Services & Google AdMob SDK</h2>
+      <p>
+        ScrollLock may integrate third-party developer software development kits (SDKs), specifically the <strong>Google AdMob SDK</strong> (provided by Google LLC), to serve advertisements and perform basic app health analytics:
+      </p>
+      <ul>
+        <li><strong>Ad Serving & Analytics:</strong> Google AdMob may automatically collect and process non-personally identifiable diagnostic and usage data, such as:
+          <ul>
+            <li>Mobile Advertising Identifiers (Google Advertising ID / GAID).</li>
+            <li>Device information (device model, operating system version, carrier, language).</li>
+            <li>General, non-precise coarse location (country or city level derived from IP address).</li>
+            <li>Ad interaction events and crash diagnostic telemetry.</li>
+          </ul>
+        </li>
+        <li><strong>Privacy Compliance:</strong> Google processes this information under its own privacy policies. You can learn more about how Google handles ad data by visiting:
+          <br>
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy & Terms</a> and 
+          <a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener noreferrer">AdMob Privacy & Data Collection Guidelines</a>.
+        </li>
+        <li><strong>Opt-Out:</strong> You can reset or opt out of personalized advertising at any time on your Android device by visiting <em>Settings &gt; Google &gt; Ads &gt; Delete advertising ID</em> or <em>Reset advertising ID</em>.</li>
+      </ul>
+    </section>
+
+    <!-- Banking & UPI Compatibility Notice -->
+    <section class="card">
+      <h2><span class="icon">💳</span> Financial & Banking Apps (Google Pay / UPI) Compatibility</h2>
+      <p>
+        Payment and banking apps (such as Google Pay, PhonePe, and banking portals) incorporate automated security scans that check for active accessibility services and screen overlays to defend against remote-access malware:
+      </p>
+      <div class="callout callout-warning">
+        <strong>Security Assurance:</strong> ScrollLock cannot observe, read, or interact with Google Pay, UPI transactions, or banking PINs. Furthermore, ScrollLock immediately clears all overlays whenever payment apps are in focus.
+      </div>
+      <p>
+        If your payment app flags active accessibility services during local development (common for sideloaded APKs), you can easily pause or toggle ScrollLock's Accessibility Service off in your phone's Accessibility Settings before making transactions.
+      </p>
+    </section>
+
+    <!-- Data Retention & Deletion Card -->
+    <section class="card">
+      <h2><span class="icon">🗑️</span> Data Retention & Your Rights</h2>
+      <p>
+        Because all data is stored locally on your device:
+      </p>
+      <ul>
+        <li>You can reset your daily scroll count to 0 at any time via the in-app <strong>"Reset Today's Count to 0"</strong> button.</li>
+        <li>You can erase all app data and custom limit preferences by going to <em>Android Settings &gt; Apps &gt; ScrollLock &gt; Storage &gt; Clear Storage / Clear Data</em>.</li>
+        <li>Uninstalling ScrollLock immediately and permanently deletes all data associated with the application from your device.</li>
+      </ul>
+    </section>
+
+    <!-- Children's Privacy Card -->
+    <section class="card">
+      <h2><span class="icon">👶</span> Children's Privacy</h2>
+      <p>
+        ScrollLock is not targeted at children under the age of 13. We do not knowingly collect, store, or solicit personally identifiable information from children under 13. If you believe that a child has provided us with personal information, please contact us immediately so we can take appropriate steps.
+      </p>
+    </section>
+
+    <!-- Updates Card -->
+    <section class="card">
+      <h2><span class="icon">🔄</span> Changes to This Privacy Policy</h2>
+      <p>
+        We may update our Privacy Policy periodically to reflect changes in legal requirements, operating system updates, or application features. Any modifications will be posted directly on this page with an updated "Effective Date". We encourage you to review this policy periodically.
+      </p>
+    </section>
+
+    <!-- Contact Card -->
+    <section class="card contact-card">
+      <h2><span class="icon">✉️</span> Questions & Contact Information</h2>
+      <p>
+        If you have any questions, feedback, or concerns regarding this Privacy Policy, your data privacy, or ScrollLock's practices, please contact us:
+      </p>
+      <a class="contact-btn" href="mailto:neverlos49@gmail.com">
+        <span>📧</span> Contact neverlos49@gmail.com
+      </a>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 ScrollLock. All rights reserved.</p>
+      <p style="margin-top: 6px; font-size: 0.8rem;">Designed for digital mindfulness and healthy habits.</p>
+    </footer>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ScrollLock</string>
+    <string name="accessibility_service_label">ScrollLock Instagram Monitor</string>
+    <string name="accessibility_service_description">Tracks your Instagram scroll count and locks Instagram when your daily scroll limit is reached to help maintain healthy digital habits.</string>
+</resources>
