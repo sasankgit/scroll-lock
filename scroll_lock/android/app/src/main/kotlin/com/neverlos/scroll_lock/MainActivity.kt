@@ -1,4 +1,4 @@
-package com.example.scroll_lock
+package com.neverlos.scroll_lock
 
 import android.content.ComponentName
 import android.content.Context
@@ -16,7 +16,7 @@ import java.util.Locale
 
 class MainActivity : FlutterActivity() {
 
-    private val CHANNEL = "com.example.scroll_lock/channel"
+    private val CHANNEL = "com.neverlos.scroll_lock/channel"
 
     override fun onResume() {
         super.onResume()

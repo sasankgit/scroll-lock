@@ -43,7 +43,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static const MethodChannel _channel =
-      MethodChannel('com.example.scroll_lock/channel');
+      MethodChannel('com.neverlos.scroll_lock/channel');
 
   int _scrollCount = 0;
   int _scrollLimit = 5;
@@ -154,6 +154,128 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
       _fetchStats(showLoading: false);
     } catch (_) {}
+  }
+
+  Future<void> _showAccessibilityDisclosureDialog({bool navigateOnAgree = true}) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF181922),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: const BorderSide(color: Color(0xFF282A3A), width: 1),
+          ),
+          titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          actionsPadding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE1306C).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.accessibility_new, color: Color(0xFFE1306C), size: 22),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Accessibility Disclosure',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'To provide mindful scroll tracking, ScrollLock requires you to enable its Accessibility Service.',
+                  style: TextStyle(fontSize: 13.5, color: Color(0xFFD1D5DB), height: 1.4),
+                ),
+                const SizedBox(height: 14),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF20222F),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFF2E3244), width: 1),
+                  ),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '🔍 How ScrollLock uses this permission:',
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF60A5FA)),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        '• Detects scroll events (swipes) specifically within Instagram feeds.\n'
+                        '• Displays the live floating counter and break reminder overlay when your daily scroll limit is reached.',
+                        style: TextStyle(fontSize: 12.5, color: Color(0xFFCBD5E1), height: 1.4),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E2822),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFF1B4D33), width: 1),
+                  ),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '🛡️ Your Privacy & Security:',
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF34D399)),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        '• ZERO personal data, passwords, keystrokes, messages, or financial information are accessed or collected.\n'
+                        '• Only monitors Instagram (com.instagram.android) — never monitors other apps.\n'
+                        '• All data is processed 100% locally on your device. Nothing is sent to remote servers.',
+                        style: TextStyle(fontSize: 12.5, color: Color(0xFFCBD5E1), height: 1.4),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Deny', style: TextStyle(color: Color(0xFF9CA3AF))),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                if (navigateOnAgree) {
+                  _openAccessibilitySettings();
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFE1306C),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text('Agree & Continue', style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _openAccessibilitySettings() async {
@@ -298,13 +420,22 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ),
                 ),
               ),
+              const SizedBox(height: 6),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () => _showAccessibilityDisclosureDialog(navigateOnAgree: false),
+                  icon: const Icon(Icons.info_outline, size: 15, color: Color(0xFF9CA3AF)),
+                  label: const Text('View Accessibility Disclosure', style: TextStyle(fontSize: 12, color: Color(0xFF9CA3AF))),
+                ),
+              ),
               const SizedBox(height: 8),
             ],
             if (!isReady) ...[
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: _openAccessibilitySettings,
+                  onPressed: () => _showAccessibilityDisclosureDialog(navigateOnAgree: true),
                   icon: const Icon(Icons.accessibility_new, size: 18),
                   label: const Text('Enable in Accessibility Settings'),
                   style: ElevatedButton.styleFrom(

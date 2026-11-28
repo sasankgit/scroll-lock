@@ -1,4 +1,4 @@
-package com.example.scroll_lock
+package com.neverlos.scroll_lock
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
